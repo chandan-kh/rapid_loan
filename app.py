@@ -310,7 +310,7 @@ def traditional_method_form(model_choice):
             
     st.sidebar.header("LIME Explanations")
 
-    if st.sidebar.checkbox('Manually Input Instance Details'):
+    if st.sidebar.checkbox('Manually Input Instance Details', value=True):
         st.subheader('Enter Instance Details')
 
                 # Form to manually input instance details

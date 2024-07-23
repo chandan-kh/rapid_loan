@@ -306,14 +306,17 @@ def traditional_method_form(model_choice):
     elif model_choice == "XGBoost":
         model = XGBClassifier(random_state=42)
 
+    accuracy, precision, recall, f1, classification_rep, conf_matrix = train_and_evaluate_model(model, X_train, y_train, X_test, y_test)
+            
+    st.sidebar.header("LIME Explanations")
 
-    if st.sidebar.checkbox('Manually Input Instance Details', value=True):
+    if st.sidebar.checkbox('Manually Input Instance Details'):
         st.subheader('Enter Instance Details')
 
-        # Form to manually input instance details
+                # Form to manually input instance details
         form = st.form(key='input_form')
-
-        # Input fields for each feature
+                
+                # Input fields for each feature
         no_of_dependents = form.number_input('Number of Dependents', min_value=0, step=1)
         education = form.selectbox('Education', ['Graduate', 'Not Graduate'])
         self_employed = form.selectbox('Self Employed', ['Yes', 'No'])
@@ -326,7 +329,7 @@ def traditional_method_form(model_choice):
         luxury_assets_value = form.number_input('Luxury Assets Value', min_value=0)
         bank_asset_value = form.number_input('Bank Asset Value', min_value=0)
 
-        # Submit button to predict
+                # Submit button to predict
         submit_button = form.form_submit_button(label='Predict')
 
         if submit_button:
@@ -346,11 +349,11 @@ def traditional_method_form(model_choice):
             }
             input_df = pd.DataFrame(input_data)
 
-            # Preprocess the input data
+                    # Preprocess the input data
             input_df = preprocess_input(input_df)
 
-            # Convert DataFrame to numpy array (Lime expects numpy array)
-            input_np = input_df.values.reshape(1, -1)  # Reshape to fit Lime's expected input format
+                    # Convert DataFrame to numpy array (Lime expects numpy array)
+            input_np = input_df.reshape(1, -1)  # Reshape to fit Lime's expected input format
 
             explainer = lime.lime_tabular.LimeTabularExplainer(X_train, mode='classification', training_labels=y_train, feature_names=feature_names, class_names=['Approved', 'Rejected'])
             exp = explainer.explain_instance(input_np[0], model.predict_proba, num_features=len(feature_names))
@@ -359,6 +362,7 @@ def traditional_method_form(model_choice):
             html = exp.as_html()
             styled_html = f'<div style="background-color: white; padding: 10px">{html}</div>'
             st.components.v1.html(styled_html, height=800, scrolling=True)
+
 
 # Neural networks page function
 def neural_networks_page():

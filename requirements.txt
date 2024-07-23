@@ -1,0 +1,15 @@
+streamlit==1.10.0
+pandas==1.4.0
+numpy==1.22.3
+scikit-learn
+matplotlib==3.5.1
+seaborn==0.11.2
+shap==0.39.0
+lime==0.2.0.1
+tensorflow==2.12.0
+innvestigate==2.1.1
+xgboost==1.5.1
+altair==4.1.0
+IPython
+graphviz
+plotly
